@@ -20,25 +20,30 @@ $(document).ready(function () {
     };
     const check = checkIfValid(data);
     if (check === 4) {
-      form.submit(function (e) {
-        e.preventDefault();
-        var vanilaForm = this;
-        var form = $(vanilaForm);
+      let name = $("#name").val();
+      let email = $("#email").val();
+      let phone = $("#phone").val();
+      let msg = $("#textarea").val();
+      let product = $("#product-order").val();
+      let policy = $("#policy").val();
 
-        var way = form.data("action") || "ajax_order";
-
-        var formData = new FormData(vanilaForm);
-        formData.append("action", way);
-
-        $.ajax({
-          url: '<?php echo admin_url("admin-ajax.php") ?>',
-          method: "post",
-          data: formData,
-          success: function (response) {
-            $("#order-form").html(response);
-          },
-        });
+      $.ajax({
+        url: "/wp-admin/admin-ajax.php",
+        type: "post",
+        data: {
+          action: "ajax_order",
+          name: name,
+          email: email,
+          phone: phone,
+          msg: msg,
+          product: product,
+          policy: policy,
+        },
+        success: function (response) {
+          $("#order-form").html(response);
+        },
       });
+      return false;
     }
   });
 
